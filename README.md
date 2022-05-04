@@ -68,7 +68,7 @@ You may see other error messages to install another Julia package. You can just 
 3. Type in terminal: include("main.jl")
 
 
-### modifying the code
+### Modifying the code
 
 1. To play with start points, change x0 in main.jl and run
 the code by: include("main.jl")
