@@ -57,7 +57,7 @@ julia
 
 7. Install Julia package ControlSystems using Pkg.add("ControlSystems")
 
-You may see other error messages to install another Julia package. You can just type it to terminal and download the packages
+You may see other error messages to install another Julia package. You can type it to terminal and download the other packages
 
 ### Running the parking example
 
