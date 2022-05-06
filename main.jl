@@ -52,10 +52,10 @@ x0 = [5  6   0.0    0.0]
 # 최대조향각/ R = 4.94
 max_delta = 0.5
 
-#road_width
+#road_width = road_w -5
 road_w = 11.0
 
-#half of parking spot width
+#half of parking spot width # from paper: 1.3
 spot_w = 1.2
 
 # fixed or variable sampling time 1/0
