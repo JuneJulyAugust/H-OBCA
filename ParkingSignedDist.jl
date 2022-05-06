@@ -31,8 +31,9 @@
 
 
 
-function ParkingSignedDist(x0,xF,N,Ts,L,ego,XYbounds,nOb,vOb, A, b,fixTime,xWS,uWS,max_delta)
+function ParkingSignedDist(x0,xF,N,Ts,L,ego,XYbounds,nOb,vOb, A, b,fixTime,xWS,uWS,max_delta,ws)
 
+	# ws = true
 	# N = length(rx_sampled)-1 #Hybrid A* sampled path step size
 	# Ts : time interval
 	# L  = 2.7 # wheelbase 
@@ -99,11 +100,18 @@ function ParkingSignedDist(x0,xF,N,Ts,L,ego,XYbounds,nOb,vOb, A, b,fixTime,xWS,u
 		 					 sum(0.001*(x[1,i]-xWS[i,1])^2 + 0.001*(x[2,i]-xWS[i,2])^2 + 0.0001*(x[3,i]-xWS[i,3])^2 for i=1:N+1))  
 	else
 	#varo time objective
-		@NLobjective(m, Min,sum(0.01*u[1,i]^2 + 0.1*u[2,i]^2 for i = 1:N) + 
-		 					 sum(0.1*((u[1,i+1]-u[1,i])/(timeScale[i]*Ts))^2 + 0.1*((u[2,i+1]-u[2,i])/(timeScale[i]*Ts))^2 for i = 1:N-1) +
-		 					    (0.1*((u[1,1]-u0[1])   /(timeScale[1]*Ts))^2 + 0.1*((u[2,1]-u0[2])   /(timeScale[1]*Ts))^2) +
-		 					 sum(0.5*timeScale[i] + 1*timeScale[i]^2 for i = 1:N+1)+
-		 					 sum(0.001*(x[1,i]-xWS[i,1])^2 + 0.001*(x[2,i]-xWS[i,2])^2 + 0.0001*(x[3,i]-xWS[i,3])^2 for i=1:N+1))   
+		if ws
+			@NLobjective(m, Min,sum(0.01*u[1,i]^2 + 0.1*u[2,i]^2 for i = 1:N) + 
+								sum(0.1*((u[1,i+1]-u[1,i])/(timeScale[i]*Ts))^2 + 0.1*((u[2,i+1]-u[2,i])/(timeScale[i]*Ts))^2 for i = 1:N-1) +
+									(0.1*((u[1,1]-u0[1])   /(timeScale[1]*Ts))^2 + 0.1*((u[2,1]-u0[2])   /(timeScale[1]*Ts))^2) +
+								sum(0.5*timeScale[i] + 1*timeScale[i]^2 for i = 1:N+1)+
+								sum(0.001*(x[1,i]-xWS[i,1])^2 + 0.001*(x[2,i]-xWS[i,2])^2 + 0.0001*(x[3,i]-xWS[i,3])^2 for i=1:N+1))
+		else   
+			@NLobjective(m, Min,sum(0.01*u[1,i]^2 + 0.1*u[2,i]^2 for i = 1:N) + 
+								sum(0.1*((u[1,i+1]-u[1,i])/(timeScale[i]*Ts))^2 + 0.1*((u[2,i+1]-u[2,i])/(timeScale[i]*Ts))^2 for i = 1:N-1) +
+									(0.1*((u[1,1]-u0[1])   /(timeScale[1]*Ts))^2 + 0.1*((u[2,1]-u0[2])   /(timeScale[1]*Ts))^2) +
+								sum(0.5*timeScale[i] + 1*timeScale[i]^2 for i = 1:N+1))
+		end  
 	end
 
 	##############################
@@ -176,17 +184,17 @@ function ParkingSignedDist(x0,xF,N,Ts,L,ego,XYbounds,nOb,vOb, A, b,fixTime,xWS,u
 	if fixTime == 1
 		for i in 1:N
 			if i==1
-				@constraint(m,-0.6<=(u0[1]-u[1,i])/Ts <= 0.6)
+				@constraint(m,-max_delta<=(u0[1]-u[1,i])/Ts <= max_delta)
 			else
-				@constraint(m,-0.6<=(u[1,i-1]-u[1,i])/Ts <= 0.6)
+				@constraint(m,-max_delta<=(u[1,i-1]-u[1,i])/Ts <= max_delta)
 			end
 		end
 	else
 		for i in 1:N
 			if i==1
-				@NLconstraint(m,-0.6<=(u0[1]-u[1,i])/(timeScale[i]*Ts) <= 0.6)
+				@NLconstraint(m,-max_delta<=(u0[1]-u[1,i])/(timeScale[i]*Ts) <= max_delta)
 			else
-				@NLconstraint(m,-0.6<=(u[1,i-1]-u[1,i])/(timeScale[i]*Ts) <= 0.6)
+				@NLconstraint(m,-max_delta<=(u[1,i-1]-u[1,i])/(timeScale[i]*Ts) <= max_delta)
 			end
 		end
 	end
@@ -233,13 +241,17 @@ function ParkingSignedDist(x0,xF,N,Ts,L,ego,XYbounds,nOb,vOb, A, b,fixTime,xWS,u
 	if fixTime == 0
 		setvalue(timeScale,1*ones(N+1,1))
 	end
-	setvalue(x,xWS')
-	setvalue(u,uWS[1:N,:]')
 
-	lWS,nWS = DualMultWS(N,nOb,vOb, A, b,xWS[:,1],xWS[:,2],xWS[:,3])
+	#warm start 없이 시작점&끝점만 부여
+	if ws
+		setvalue(x,xWS')
+		setvalue(u,uWS[1:N,:]')
 
-	setvalue(l,lWS')
-	setvalue(n,nWS')
+		lWS,nWS = DualMultWS(N,nOb,vOb, A, b,xWS[:,1],xWS[:,2],xWS[:,3])
+
+		setvalue(l,lWS')
+		setvalue(n,nWS')
+	end
 
 	##############################
 	# solve problem
@@ -259,8 +271,13 @@ function ParkingSignedDist(x0,xF,N,Ts,L,ego,XYbounds,nOb,vOb, A, b,fixTime,xWS,u
 
 	tic()
 	status = JuMP.solve(m; suppress_warnings=true)
-	# status = solve(m; suppress_warnings=true)
+	# status = solve(m; suppress_warnings=true) 
 	time1 = toq();
+
+	#solution_summary(m) #Error
+	# raw_status(m) #Error #infeasible, constraint 간에 충돌있는듯. 예전 버전이라 https://jump.dev/JuMP.jl/stable/manual/solutions/ 사용못함
+	println(status) 
+	#exit()
 
 	if status == :Optimal
 	    exitflag = 1
@@ -298,6 +315,7 @@ function ParkingSignedDist(x0,xF,N,Ts,L,ego,XYbounds,nOb,vOb, A, b,fixTime,xWS,u
 	    end
 	else
 	    exitflag = 0
+		#print(" this?")
 	end
 
 	##############################
