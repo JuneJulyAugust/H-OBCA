@@ -48,7 +48,8 @@ car_size = 4.0
 # x0 = [-6  9.5   0.0    0.0]
 x0 = [5  6   0.0    0.0]
 
-# give warmstart or not
+# use warm-start or not
+ws = True #False 
 
 # R =  L / tan(max_delta)
 # 최대조향각/ R = 4.94
