@@ -62,7 +62,7 @@ spot_w = 1.2
 fixTime = 0		# default: 0 (variable time steps)
 
 # use warm-start or not
-ws = True #False 
+ws = true #false 
 
 
 #### problem parameters ####
