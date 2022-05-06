@@ -94,10 +94,16 @@ function ParkingSignedDist(x0,xF,N,Ts,L,ego,XYbounds,nOb,vOb, A, b,fixTime,xWS,u
 	u0 = [0,0]
 	#fix time objective
 	if fixTime == 1
-		@NLobjective(m, Min,sum(0.01*u[1,i]^2 + 0.5*u[2,i]^2 for i = 1:N) + 
-		 					 sum(0.1*((u[1,i+1]-u[1,i])/Ts)^2 + 0.1*((u[2,i+1]-u[2,i])/Ts)^2 for i = 1:N-1)+
-		 					 	(0.1*((u[1,1]-u0[1])/(Ts))^2 + 0.1*((u[2,1]-u0[2])/(Ts))^2) +
-		 					 sum(0.001*(x[1,i]-xWS[i,1])^2 + 0.001*(x[2,i]-xWS[i,2])^2 + 0.0001*(x[3,i]-xWS[i,3])^2 for i=1:N+1))  
+		if ws
+			@NLobjective(m, Min,sum(0.01*u[1,i]^2 + 0.5*u[2,i]^2 for i = 1:N) + 
+								 sum(0.1*((u[1,i+1]-u[1,i])/Ts)^2 + 0.1*((u[2,i+1]-u[2,i])/Ts)^2 for i = 1:N-1)+
+									(0.1*((u[1,1]-u0[1])/(Ts))^2 + 0.1*((u[2,1]-u0[2])/(Ts))^2) +
+								 sum(0.001*(x[1,i]-xWS[i,1])^2 + 0.001*(x[2,i]-xWS[i,2])^2 + 0.0001*(x[3,i]-xWS[i,3])^2 for i=1:N+1))
+		else
+			@NLobjective(m, Min,sum(0.01*u[1,i]^2 + 0.5*u[2,i]^2 for i = 1:N) + 
+								 sum(0.1*((u[1,i+1]-u[1,i])/Ts)^2 + 0.1*((u[2,i+1]-u[2,i])/Ts)^2 for i = 1:N-1)+
+									(0.1*((u[1,1]-u0[1])/(Ts))^2 + 0.1*((u[2,1]-u0[2])/(Ts))^2))
+		end
 	else
 	#varo time objective
 		if ws
