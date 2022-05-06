@@ -7,6 +7,7 @@ Paper describing the theory can be found [here](http://arxiv.org/abs/1711.03449)
 This repository changes minor code errors when running [H-OBCA](https://github.com/XiaojingGeorgeZhang/H-OBCA) and give you solution how to download the old version of julia(0.6.0)
 
 Also you can test the algotithms' computation time,length of the path repeatedly on main.jl (check line 222 to 308)
++ check no warm-start option
 
 ## Short Description
 H-OBCA is an optimization-based  approach  for autonomous  parking. It builds on [OBCA](https://github.com/XiaojingGeorgeZhang/OBCA), which is a recent method for generating obstacle-free trajectories using optimal control.
@@ -57,7 +58,7 @@ julia
 
 7. Install Julia package ControlSystems using Pkg.add("ControlSystems")
 
-You may see other error messages to install another Julia package. You can just type it to terminal and download the packages
+You may see other error messages to install another Julia package. You can type it to terminal and download the other packages
 
 ### Running the parking example
 

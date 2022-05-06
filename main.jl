@@ -34,12 +34,9 @@ using PyCall
 close("all")
 ##################################################
 
-# 0.3, 0.1 다 hybrid_a_star discrete한 수치
-
 # define scenarios
 # scenario = "parallel"
 scenario = "backwards"
-
 
 # wheelbase
 L  = 3.0
@@ -48,7 +45,7 @@ L  = 3.0
 car_size = 4.0
 
 # set initial state
-# x0 = [-6  9.5   0.0    0.0]  #5,6,0,0 --> 안되는 경우
+# x0 = [-6  9.5   0.0    0.0]
 x0 = [5  6   0.0    0.0]
 
 # R =  L / tan(max_delta)
@@ -63,6 +60,9 @@ spot_w = 1.2
 
 # fixed or variable sampling time 1/0
 fixTime = 0		# default: 0 (variable time steps)
+
+# use warm-start or not
+ws = true #false 
 
 
 #### problem parameters ####
@@ -257,7 +257,7 @@ uWS = [delta_sampled a_sampled]
 ### solve OBCA step ###
 N = length(rx_sampled)-1
 AOb, bOb = obstHrep(nOb, vOb, lOb) 	# obtain H-representation of obstacles
-xp10, up10, scaleTime10, exitflag10, time10, lp10, np10 = ParkingSignedDist(x0,xF,N,Ts,L,ego,XYbounds,nOb,vObMPC,AOb,bOb,fixTime,xWS,uWS,max_delta)
+xp10, up10, scaleTime10, exitflag10, time10, lp10, np10 = ParkingSignedDist(x0,xF,N,Ts,L,ego,XYbounds,nOb,vObMPC,AOb,bOb,fixTime,xWS,uWS,max_delta,ws)
 
 
 ### plot H-OBCA solution ###
