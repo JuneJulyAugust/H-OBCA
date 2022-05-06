@@ -34,12 +34,9 @@ using PyCall
 close("all")
 ##################################################
 
-# 0.3, 0.1 다 hybrid_a_star discrete한 수치
-
 # define scenarios
 # scenario = "parallel"
 scenario = "backwards"
-
 
 # wheelbase
 L  = 3.0
@@ -48,8 +45,10 @@ L  = 3.0
 car_size = 4.0
 
 # set initial state
-# x0 = [-6  9.5   0.0    0.0]  #5,6,0,0 --> 안되는 경우
+# x0 = [-6  9.5   0.0    0.0]
 x0 = [5  6   0.0    0.0]
+
+# give warmstart or not
 
 # R =  L / tan(max_delta)
 # 최대조향각/ R = 4.94
