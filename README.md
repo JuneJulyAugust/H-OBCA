@@ -59,6 +59,8 @@ julia
 7. Install Julia package ControlSystems using Pkg.add("ControlSystems")
 
 You may see other error messages to install other Julia packages. You can type it to terminal and download the other packages
+> **Note** : while install Ipopt using Pkg.add("Ipopt") or Pkg.build(Ipopt) then type
+"sudo apt-get install gfortran" and install Ipopt again
 
 ### Running the parking example
 
