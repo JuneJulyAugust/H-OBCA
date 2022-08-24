@@ -48,18 +48,29 @@ julia
 
 2. Open Julia in terminal
 
-3. Install Julia package JuMP using Pkg.add("JuMP")
+3. Install theses packages first to avoid issues abuot dataframe
+Pkg.add("DataFrames") , Pkg.add("Hiccup") 
 
-4. Install Julia package Ipopt using Pkg.add("Ipopt")
+4. Install Julia package JuMP using Pkg.add("JuMP")
 
-5. Install Julia package PyPlot using Pkg.add("PyPlot")
+5. Install Julia package Ipopt using Pkg.add("Ipopt")
 
-6. Install Julia package NearestNeighbors using Pkg.add("NearestNeighbors")
+6. Install Julia package PyPlot using Pkg.add("PyPlot")
 
-7. Install Julia package ControlSystems using Pkg.add("ControlSystems")
+7. Install Julia package NearestNeighbors using Pkg.add("NearestNeighbors")
+
+8. Install Julia package ControlSystems using Pkg.add("ControlSystems")
+if you see error message like this 
+```sh
+ERROR: Unsatisfiable requirements detected for package OrdinaryDiffEq
+```
+do Pkg.update() and install the package again
+
+9. To use Ros for Julia install [RobotOs](https://github.com/jdlangs/RobotOS.jl/releases) using Pkg.add("RobotOS")
+**TBU with codes**
 
 You may see other error messages to install other Julia packages. You can type it to terminal and download the other packages
-> **Note** : while install Ipopt using Pkg.add("Ipopt") or Pkg.build(Ipopt) then type
+> **Note** : while install Ipopt using Pkg.add("Ipopt") or Pkg.build(Ipopt) you may see error messages then type
 "sudo apt-get install gfortran" and install Ipopt again
 
 ### Running the parking example
