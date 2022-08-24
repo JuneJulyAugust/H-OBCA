@@ -48,7 +48,7 @@ julia
 
 2. Open Julia in terminal
 
-3. Install theses packages first to avoid issues about dataframe
+3. Install theses packages first to avoid issues about dataframe  
 Pkg.add("DataFrames") , Pkg.add("Hiccup") 
 
 4. Install Julia package JuMP using Pkg.add("JuMP")
@@ -59,14 +59,13 @@ Pkg.add("DataFrames") , Pkg.add("Hiccup")
 
 7. Install Julia package NearestNeighbors using Pkg.add("NearestNeighbors")
 
-8. Install Julia package ControlSystems using Pkg.add("ControlSystems")
-if you see error message like this 
+8. Install Julia package ControlSystems using Pkg.add("ControlSystems")  
+If you see error message like below? do Pkg.update() and install the package again
 ```sh
 ERROR: Unsatisfiable requirements detected for package OrdinaryDiffEq
 ```
-do Pkg.update() and install the package again
 
-9. To use Ros for Julia install [RobotOs](https://github.com/jdlangs/RobotOS.jl/releases) using Pkg.add("RobotOS")
+9. To use Ros for Julia install [RobotOs](https://github.com/jdlangs/RobotOS.jl/releases) using Pkg.add("RobotOS")  
 **TBU with codes**
 
 You may see other error messages to install other Julia packages. You can type it to terminal and download the other packages
