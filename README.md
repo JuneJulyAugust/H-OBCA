@@ -48,7 +48,7 @@ julia
 
 2. Open Julia in terminal
 
-3. Install theses packages first to avoid issues abuot dataframe
+3. Install theses packages first to avoid issues about dataframe
 Pkg.add("DataFrames") , Pkg.add("Hiccup") 
 
 4. Install Julia package JuMP using Pkg.add("JuMP")
