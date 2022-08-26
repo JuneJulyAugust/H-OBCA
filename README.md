@@ -60,7 +60,7 @@ Pkg.add("DataFrames") , Pkg.add("Hiccup")
 7. Install Julia package NearestNeighbors using Pkg.add("NearestNeighbors")
 
 8. Install Julia package ControlSystems using Pkg.add("ControlSystems")  
-If you see error message like below? do Pkg.update() and install the package again
+If you see error message as follows do Pkg.update() and install the package again
 ```sh
 ERROR: Unsatisfiable requirements detected for package OrdinaryDiffEq
 ```
