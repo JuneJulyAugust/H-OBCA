@@ -31,9 +31,7 @@
 module a_star
 
 using LinearAlgebra
-ENV["MPLBACKEND"]="tkagg"
-using PyPlot
-pygui(true)
+using Plots
 using NearestNeighbors
 using DataStructures 
 
@@ -388,16 +386,17 @@ function main()
 
     @time rx, ry = calc_astar_path(sx, sy, gx, gy, ox, oy, GRID_RESOLUTION, VEHICLE_RADIUS)
 
-    plot(ox, oy, ".k",label="obstacles")
-    plot(sx, sy, "xr",label="start")
-    plot(gx, gy, "xb",label="goal")
-    plot(rx, ry, "-r",label="A* path")
-    legend()
-    grid(true)
-    axis("equal")
-    show()
+    p = plot(ox, oy, label="obstacles", lw=2, ls=:dot, seriestype=:scatter)
+    # plot!(sx, sy, label="start")
+    # plot!(gx, gy, label="goal")
+    plot!(rx, ry, label="A* path", lw=3, ls=:dot, aspect_ratio = :equal)
+    plot!(legend=:bottomleft)
+    # grid(true)
+    # axis("equal")
+    display(p)
 
     println(PROGRAM_FILE," Done!!")
+    readline()
 end
 
 
