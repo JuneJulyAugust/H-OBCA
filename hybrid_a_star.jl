@@ -63,7 +63,7 @@ const H_COST = 1. # Heuristic cost; higher -> heuristic; 1.0
 const WB = 2.7 #[m]; 7.0
 const MAX_STEER = 0.6  #[rad]
 
-type Node
+struct Node
     xind::Int64 #x index
     yind::Int64 #y index
     yawind::Int64 #yaw index
@@ -76,7 +76,7 @@ type Node
     pind::Int64 # parent index
 end
 
-type Config
+struct Config
     minx::Int64
     miny::Int64
     minyaw::Int64

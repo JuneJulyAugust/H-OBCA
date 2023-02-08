@@ -34,7 +34,7 @@ using PyPlot
 
 const STEP_SIZE = 0.1
 
-type Path
+struct Path
     lengths::Array{Float64} #lengths of each part of the path +: forward, -: backward
     ctypes::Array{String} # type of each part of the path
     L::Float64 # total path length
